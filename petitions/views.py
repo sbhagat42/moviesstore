@@ -1,9 +1,6 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Petition
 from django.contrib.auth.decorators import login_required
+from .models import Petition, Vote
 
 @login_required
 def index(request):
@@ -22,13 +19,21 @@ def create_petition(request):
 @login_required
 def vote_yes(request, petition_id):
     petition = get_object_or_404(Petition, id=petition_id)
-    petition.yes_votes.add(request.user)
-    petition.no_votes.remove(request.user)
+    # Create or update vote
+    Vote.objects.update_or_create(
+        petition=petition,
+        user=request.user,
+        defaults={'vote_type': 'yes'}
+    )
     return redirect('petitions_index')
 
 @login_required
 def vote_no(request, petition_id):
     petition = get_object_or_404(Petition, id=petition_id)
-    petition.no_votes.add(request.user)
-    petition.yes_votes.remove(request.user)
+    # Create or update vote
+    Vote.objects.update_or_create(
+        petition=petition,
+        user=request.user,
+        defaults={'vote_type': 'no'}
+    )
     return redirect('petitions_index')

@@ -1,15 +1,22 @@
-<h1>Movie Petitions</h1>
-<a href="{% url 'create_petition' %}">Create New Petition</a>
-<ul>
-{% for petition in petitions %}
-    <li>
-        <h3>{{ petition.title }}</h3>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Movie Requests</h2>
+  <a class="btn btn-primary mb-3" href="{% url 'create_petition' %}">Create New Request</a>
+
+  <ul class="list-group">
+    {% for petition in petitions %}
+      <li class="list-group-item">
+        <h5>{{ petition.title }}</h5>
         <p>{{ petition.description }}</p>
-        <p>Yes: {{ petition.yes_votes.count }} | No: {{ petition.no_votes.count }}</p>
-        <a href="{% url 'vote_yes' petition.id %}">Vote Yes</a>
-        <a href="{% url 'vote_no' petition.id %}">Vote No</a>
-    </li>
-{% empty %}
-    <li>No petitions yet.</li>
-{% endfor %}
-</ul>
+        <small>Created by {{ petition.created_by.username }} on {{ petition.created_at|date:"M d, Y" }}</small>
+        <p>Yes: {{ petition.yes_votes }} | No: {{ petition.no_votes }}</p>
+        <a href="{% url 'vote_yes' petition.id %}" class="btn btn-success btn-sm">Vote Yes</a>
+        <a href="{% url 'vote_no' petition.id %}" class="btn btn-danger btn-sm">Vote No</a>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No movie requests yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
