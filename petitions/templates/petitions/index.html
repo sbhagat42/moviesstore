@@ -13,6 +13,10 @@
         <p>Yes: {{ petition.yes_votes }} | No: {{ petition.no_votes }}</p>
         <a href="{% url 'vote_yes' petition.id %}" class="btn btn-success btn-sm">Vote Yes</a>
         <a href="{% url 'vote_no' petition.id %}" class="btn btn-danger btn-sm">Vote No</a>
+        
+        {% if petition.created_by == user %}
+          <a href="{% url 'delete_petition' petition.id %}" class="btn btn-danger btn-sm">Delete Request</a>
+        {% endif %}
       </li>
     {% empty %}
       <li class="list-group-item">No movie requests yet.</li>

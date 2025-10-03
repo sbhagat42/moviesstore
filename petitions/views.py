@@ -17,23 +17,37 @@ def create_petition(request):
     return render(request, 'petitions/create.html')
 
 @login_required
+def delete_petition(request, petition_id):
+    petition = get_object_or_404(Petition, id=petition_id)
+
+    if petition.created_by == request.user:
+        petition.delete()
+    return redirect('petitions_index') 
+
+@login_required
 def vote_yes(request, petition_id):
     petition = get_object_or_404(Petition, id=petition_id)
+    if Vote.objects.filter(petition=petition, user=request.user).exists():
+        return redirect('petitions_index')  # Redirect if the user has already voted
+
     # Create or update vote
-    Vote.objects.update_or_create(
+    Vote.objects.create(
         petition=petition,
         user=request.user,
-        defaults={'vote_type': 'yes'}
+        vote_type='yes'
     )
     return redirect('petitions_index')
 
 @login_required
 def vote_no(request, petition_id):
     petition = get_object_or_404(Petition, id=petition_id)
+    if Vote.objects.filter(petition=petition, user=request.user).exists():
+        return redirect('petitions_index')  # Redirect if the user has already voted
+
     # Create or update vote
-    Vote.objects.update_or_create(
+    Vote.objects.create(
         petition=petition,
         user=request.user,
-        defaults={'vote_type': 'no'}
+        vote_type='no'
     )
     return redirect('petitions_index')
