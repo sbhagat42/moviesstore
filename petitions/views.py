@@ -5,6 +5,9 @@ from .models import Petition, Vote
 @login_required
 def index(request):
     petitions = Petition.objects.all()
+    for petition in petitions:
+        petition.has_voted = petition.votes.filter(user=request.user).exists()
+
     return render(request, 'petitions/index.html', {'petitions': petitions})
 
 @login_required
