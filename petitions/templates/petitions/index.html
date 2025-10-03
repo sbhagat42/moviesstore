@@ -12,8 +12,8 @@
         <small>Created by {{ petition.created_by.username }} on {{ petition.created_at|date:"M d, Y" }}</small>
         <p>Yes: {{ petition.yes_votes }} | No: {{ petition.no_votes }}</p>
        
-        {% if user == petition.created_by %}
-            <a href="{% url 'delete_petition' petition.id %}" class="btn btn-danger btn-sm mt-2">Delete</a>
+        {% if petition.created_by == user %}
+          <a href="{% url 'delete_petition' petition.id %}" class="btn btn-danger btn-sm">Delete Request</a>
         {% endif %}
 
         {% if petition.has_voted %}
