@@ -6,4 +6,5 @@ urlpatterns = [
     path('create/', views.create_petition, name='create_petition'),
     path('<int:petition_id>/vote_yes/', views.vote_yes, name='vote_yes'),
     path('<int:petition_id>/vote_no/', views.vote_no, name='vote_no'),
+    path('delete/<int:petition_id>/', views.delete_petition, name='delete_petition'),
 ]

@@ -11,8 +11,20 @@
         <p>{{ petition.description }}</p>
         <small>Created by {{ petition.created_by.username }} on {{ petition.created_at|date:"M d, Y" }}</small>
         <p>Yes: {{ petition.yes_votes }} | No: {{ petition.no_votes }}</p>
-        <a href="{% url 'vote_yes' petition.id %}" class="btn btn-success btn-sm">Vote Yes</a>
-        <a href="{% url 'vote_no' petition.id %}" class="btn btn-danger btn-sm">Vote No</a>
+       
+        <div>
+          <a href="{% url 'delete_petition' petition.id %}" class="btn btn-danger btn-sm ms-3">Delete</a>
+        </div>
+
+        {% if petition.has_voted %}
+          <!-- If the user has voted, disable the buttons and style them as 'gray' -->
+          <button class="btn btn-secondary btn-sm" disabled>Vote Yes</button>
+          <button class="btn btn-secondary btn-sm" disabled>Vote No</button>
+        {% else %}
+          <!-- If the user hasn't voted, show the buttons -->
+          <a href="{% url 'vote_yes' petition.id %}" class="btn btn-success btn-sm">Vote Yes</a>
+          <a href="{% url 'vote_no' petition.id %}" class="btn btn-danger btn-sm">Vote No</a>
+        {% endif %}
       </li>
     {% empty %}
       <li class="list-group-item">No movie requests yet.</li>
