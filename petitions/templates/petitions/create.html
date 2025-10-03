@@ -1,0 +1,9 @@
+<h1>Create a Petition</h1>
+<form method="post">
+    {% csrf_token %}
+    <label>Title:</label><br>
+    <input type="text" name="title"><br>
+    <label>Description:</label><br>
+    <textarea name="description"></textarea><br>
+    <button type="submit">Submit</button>
+</form>

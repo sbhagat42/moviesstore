@@ -1,0 +1,15 @@
+<h1>Movie Petitions</h1>
+<a href="{% url 'create_petition' %}">Create New Petition</a>
+<ul>
+{% for petition in petitions %}
+    <li>
+        <h3>{{ petition.title }}</h3>
+        <p>{{ petition.description }}</p>
+        <p>Yes: {{ petition.yes_votes.count }} | No: {{ petition.no_votes.count }}</p>
+        <a href="{% url 'vote_yes' petition.id %}">Vote Yes</a>
+        <a href="{% url 'vote_no' petition.id %}">Vote No</a>
+    </li>
+{% empty %}
+    <li>No petitions yet.</li>
+{% endfor %}
+</ul>
